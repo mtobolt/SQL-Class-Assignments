@@ -1,0 +1,80 @@
+INSERT INTO ORDERS
+VALUES (1021, 1009, '20-JUL-09', NULL, NULL, NULL, NULL, NULL, NULL);
+
+
+UPDATE orders
+SET ShipZip = 33222
+WHERE order# = 1017;
+ 
+COMMIT;
+SAVEPOINT ONE;
+ 
+INSERT INTO ORDERS 
+VALUES (1022, 2000, '06-AUG-09', NULL, NULL, NULL, NULL, NULL, NULL);
+
+ 
+DELETE FROM orders
+WHERE ORDER# = '1005';
+ 
+DELETE FROM orderitems
+WHERE ORDER# = '1005';
+
+ROLLBACK TO ONE;
+
+CREATE TABLE categorys
+(catCode VARCHAR2(3),
+catDesc VARCHAR(11) NOT NULL,
+
+CONSTRAINT categorys_catCode_pk PRIMARY KEY (catCode));
+COMMIT;
+
+INSERT INTO categorys	
+	VALUES ('BUS', 'BUSINESS');
+INSERT INTO categorys	
+	VALUES ('CHN', 'CHILDREN');	
+INSERT INTO categorys	
+	VALUES ('COK', 'COOKING');
+INSERT INTO categorys	
+	VALUES ('COM', 'COMPUTER');
+INSERT INTO categorys	
+	VALUES ('FAL', 'FAMILY LIFE');
+INSERT INTO categorys	
+	VALUES ('FIT', 'FITNESS');
+INSERT INTO categorys	
+	VALUES ('SEH', 'SELF HELP');
+INSERT INTO categorys	
+	VALUES ('LIT', 'LITERATURE');
+	
+
+catCode VARCHAR2(3),
+
+ADD CONSTRAINT books_catCode_fk FOREIGN KEY (catCode)
+REFERENCES categorys (catCode);
+
+UPDATE books
+set catCode = 'BUS'
+WHERE category = 'BUSINESS';
+UPDATE books
+set catCode = 'CHN'
+WHERE category = 'CHILDREN';
+UPDATE books
+set catCode = 'COK'
+WHERE category = 'COOKING';
+UPDATE books
+set catCode = 'COM'
+WHERE category = 'COMPUTER';
+UPDATE books
+set catCode = 'FAL'
+WHERE category = 'FAMILY LIFE';
+UPDATE books
+set catCode = 'FIT'
+WHERE category = 'FITNESS';
+UPDATE books
+set catCode = 'SEH'
+WHERE category = 'SELF HELP';
+UPDATE books
+set catCode = 'LIT'
+WHERE category = 'LITERATURE';
+
+ALTER TABLE books
+DROP COLUMN category;
